@@ -5,40 +5,42 @@ const EmailInput = ({ value, onChange, error }) => {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#888"
+        style={[styles.input, error ? styles.inputError : null]}
+        value={value}
+        onChangeText={onChange}
+        placeholder="Email Address"
+        placeholderTextColor="#555"
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
-        value={value}
-        onChangeText={onChange}
       />
-
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    marginBottom: 16,
+    marginBottom: 10,
   },
   input: {
-    height: 50,
+    height: 56,
+    backgroundColor: '#111',
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 14,
+    borderColor: '#333',
+    paddingHorizontal: 16,
+    color: '#fff',
     fontSize: 16,
-    backgroundColor: '#fff',
-    color: '#000',
   },
-  error: {
+  inputError: {
+    borderColor: '#ff4444',
+  },
+  errorText: {
     color: '#ff4444',
-    marginTop: 6,
-    fontSize: 13,
+    fontSize: 12,
+    marginTop: 5,
+    marginLeft: 4,
   },
 });
 
