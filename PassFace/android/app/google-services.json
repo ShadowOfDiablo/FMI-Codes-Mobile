@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "418208133775",
+    "project_id": "fmi-codes-c283c",
+    "storage_bucket": "fmi-codes-c283c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418208133775:android:9a9ffd6cd252f7a37c76fa",
+        "android_client_info": {
+          "package_name": "com.passface"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdj5ICxqvbZZdR3D9ki_b_mdnXo_REZ3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
