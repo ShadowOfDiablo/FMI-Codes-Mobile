@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, PermissionsAndroid } from 'react-native';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import { requestNotificationPermissionAndGetToken } from '../services/notificationService';
 import EmailInput from '../components/EmailInput';
+import registerService from '../services/registerService';
 
 const rnBiometrics = new ReactNativeBiometrics();
 
@@ -54,17 +55,16 @@ const Register = () => {
             const { publicKey } = await rnBiometrics.createKeys();
 
             const pushToken = await requestNotificationPermission();
+            console.log(pushToken)
 
-            const result = await registerService({
-              email: email,
-              publicKey: publicKey,
-              pushToken: pushToken
-            });
-
+//            const result = await registerService({
+//              email: email,
+//              publicKey: publicKey,
+//              pushToken: pushToken
+//            });
 
             Alert.alert('Success', 'Device registered successfully');
         } catch (e) {
-            console.error(e);
             setError('Registration failed');
         } finally {
             setLoading(false);
