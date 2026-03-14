@@ -7,7 +7,7 @@ const Landing = ({ onLogout }) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <ScanFace size={80} color="#fff" />
-        <Text style={styles.title}>PassFace</Text>
+        <Text style={styles.title}>FacePass</Text>
         <Text style={styles.text}>Waiting for login requests</Text>
       </View>
 
