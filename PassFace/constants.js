@@ -1,0 +1,1 @@
+const be_endpoint = "https://facepass-api-1018767395420.europe-west1.run.app";

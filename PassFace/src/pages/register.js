@@ -55,7 +55,12 @@ const Register = () => {
 
             const pushToken = await requestNotificationPermission();
 
-            // TODO: POST request to BE
+            const result = await registerService({
+              email: email,
+              publicKey: publicKey,
+              pushToken: pushToken
+            });
+
 
             Alert.alert('Success', 'Device registered successfully');
         } catch (e) {
