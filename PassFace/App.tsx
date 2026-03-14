@@ -53,7 +53,6 @@ function App() {
   const handleBiometricApproval = async remoteMessage => {
     try {
       const data = remoteMessage?.data;
-      console.log(data);
       const challenge = data?.challengeCode;
       const challengeId = data?.challengeId;
 
@@ -63,14 +62,21 @@ function App() {
       }
 
       const { success, signature } = await rnBiometrics.createSignature({
-        promptMessage: 'Approve login request',
+        promptMessage: 'Approve login request'
         payload: challenge,
       });
 
       if (success && signature) {
-        //TODO: call BE
+        try {
+          const result = await sendSignatureService({
+            challengeId: challengeId,
+            signature: signature
+          });
 
-        showDialog('Success', 'Login approved successfully');
+          showDialog('Success', 'Login approved successfully');
+        } catch (apiError) {
+          showDialog('Error', 'Failed to send approval to server');
+        }
       } else {
         showDialog('Cancelled', 'Biometric approval was cancelled');
       }
@@ -139,7 +145,7 @@ function App() {
           onRegisterSuccess={() =>
             showDialog(
               'Success',
-              'Device registered successfully',
+              'Account registered successfully',
               () => setIsRegistered(true)
             )
           }
