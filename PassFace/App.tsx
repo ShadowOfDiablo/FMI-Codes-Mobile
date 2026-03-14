@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar, useColorScheme, Alert } from 'react-native';
 import { getApp } from '@react-native-firebase/app';
 import {
@@ -7,16 +7,17 @@ import {
   onNotificationOpenedApp,
   getInitialNotification,
 } from '@react-native-firebase/messaging';
-import {
-  SafeAreaProvider,
-} from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ReactNativeBiometrics from 'react-native-biometrics';
+
 import Register from './src/pages/register';
+import Landing from './src/pages/landing';
 
 const rnBiometrics = new ReactNativeBiometrics();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const [isRegistered, setIsRegistered] = useState(null);
 
   const handleBiometricApproval = async remoteMessage => {
     try {
@@ -36,29 +37,20 @@ function App() {
         return;
       }
 
-      console.log('Approved signature:', signature);
-      console.log('Challenge:', challenge);
-      console.log('RequestId:', requestId);
-
-      // Later send this to BE:
-      // await fetch('https://your-api-url.com/api/auth/approve-login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     requestId,
-      //     challenge,
-      //     signature,
-      //   }),
-      // });
-
       Alert.alert('Success', 'Login approved');
     } catch (e) {
-      console.error(e);
       Alert.alert('Error', 'Biometric approval failed');
     }
   };
 
   useEffect(() => {
+    const checkRegistration = async () => {
+      const { keysExist } = await rnBiometrics.biometricKeysExist();
+      setIsRegistered(keysExist);
+    };
+
+    checkRegistration();
+
     const app = getApp();
     const messaging = getMessaging(app);
 
@@ -67,14 +59,8 @@ function App() {
         remoteMessage?.notification?.title || 'Login request',
         remoteMessage?.notification?.body || 'Approve login?',
         [
-          {
-            text: 'Decline',
-            style: 'cancel',
-          },
-          {
-            text: 'Approve',
-            onPress: () => handleBiometricApproval(remoteMessage),
-          },
+          { text: 'Decline', style: 'cancel' },
+          { text: 'Approve', onPress: () => handleBiometricApproval(remoteMessage) },
         ],
       );
     });
@@ -95,10 +81,14 @@ function App() {
     };
   }, []);
 
+  if (isRegistered === null) {
+    return null;
+  }
+
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Register />
+      {isRegistered ? <Landing /> : <Register />}
     </SafeAreaProvider>
   );
 }

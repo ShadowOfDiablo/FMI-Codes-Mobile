@@ -55,7 +55,6 @@ const Register = () => {
             const { publicKey } = await rnBiometrics.createKeys();
 
             const pushToken = await requestNotificationPermission();
-            console.log(pushToken)
 
 //            const result = await registerService({
 //              email: email,
