@@ -53,38 +53,9 @@ const Register = () => {
         try {
             const { publicKey } = await rnBiometrics.createKeys();
 
-            const payload = `register:${email}:${Date.now()}`;
-
-            const { success, signature } = await rnBiometrics.createSignature({
-                promptMessage: 'Confirm registration',
-                payload,
-            });
-
-            if (!success || !signature) {
-                setError('Biometric confirmation failed or was cancelled');
-                setLoading(false);
-                return;
-            }
-
             const pushToken = await requestNotificationPermission();
 
-//      const response = await fetch('https://your-api-url.com/api/auth/register-device', {
-//        method: 'POST',
-//        headers: {
-//          'Content-Type': 'application/json',
-//        },
-//        body: JSON.stringify({
-//          email,
-//          publicKey,
-//          payload,
-//          signature,
-//          pushToken,
-//        }),
-//      });
-
-//      if (!response.ok) {
-//        throw new Error('Failed to register device');
-//      }
+            // TODO: POST request to BE
 
             Alert.alert('Success', 'Device registered successfully');
         } catch (e) {
